@@ -3,7 +3,8 @@ package com.volvo.volvo.JuegosService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -21,8 +22,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class JuegoService {
-    @Autowired
-    private JuegoRepository repositorio;
+    
+    private final JuegoRepository repositorio;
 
 
     //------son los Beans creados en webclient//
@@ -61,6 +62,12 @@ public class JuegoService {
 
         Juego guardado = repositorio.save(juego);
         return enriquecerJuego(guardado);
+    }
+    public void borrarjuego(Long id){
+        if(!repositorio.existsById(id)){
+            throw new RuntimeException("Juego no encontrado con id:"+id);
+        }
+        repositorio.deleteById(id);
     }
 
     //-----Metodo exclusivo: metodo para enriquecer un Juego con los datos de otros
