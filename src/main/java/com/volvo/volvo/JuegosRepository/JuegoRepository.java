@@ -11,7 +11,7 @@ import java.util.List;
 public interface JuegoRepository extends JpaRepository<Juego,Long>{
     List<Juego> findByGeneroId(Long generoId);
     List<Juego> findByEstudioId(Long estudioId);
-    List<Juego> findByPlataformId(Long plataformId);
+    List<Juego> findByPlataformaId(Long plataformaId);
     List<Juego> findByTitulo(String titulo);
 
 }

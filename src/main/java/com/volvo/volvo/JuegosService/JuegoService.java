@@ -25,8 +25,6 @@ public class JuegoService {
     
     private final JuegoRepository repositorio;
 
-
-    //------son los Beans creados en webclient//
     private final WebClient generowebClient;
     private final WebClient plataformawebClient;
     private final WebClient estudiowebClient;
@@ -38,7 +36,7 @@ public class JuegoService {
             .map(this::enriquecerJuego)
             .collect(Collectors.toList());
     }
-//---------Obtener por id usando El DTO--------//
+
     public JuegoRespuestaDTO obtenerJuegoporId(Long id){
         Juego juego = repositorio.findById(id)
                     .orElseThrow(()-> new RuntimeException("Juego no encontrado con id;"+id));
@@ -49,7 +47,6 @@ public class JuegoService {
 
     public JuegoRespuestaDTO crearJuego(JuegoPedidoDTO pedido){
 
-        //validamos que los id existen en sus respectivos servicios
         //****IMPORTANTE ACTIVAR EL VALIDAR MAS TARDE; AHORA ESTA DESACTIVADO PARA HACER PRUEBAS SIN OTROS SERVICIOS CORRIENDO */
         //validarIdExterno(pedido.getGeneroId(), pedido.getPlataformaId(), pedido.getEstudioId());
 
@@ -58,7 +55,7 @@ public class JuegoService {
         juego.setDescripcion(pedido.getDescripcion());
         juego.setAnioLanzamiento(pedido.getAnioLanzamiento());
         juego.setGeneroId(pedido.getGeneroId());
-        juego.setPlataformId(pedido.getPlataformaId());
+        juego.setPlataformaId(pedido.getPlataformaId());
         juego.setEstudioId(pedido.getEstudioId());
 
         Juego guardado = repositorio.save(juego);
@@ -70,13 +67,9 @@ public class JuegoService {
         }
         repositorio.deleteById(id);
     }
-
-    //-----Metodo exclusivo: metodo para enriquecer un Juego con los datos de otros
-    //servicios segun Webclient. recibe Entidad Juego que solo tiene los ids 
-    //para devolver un JuegoRespuestaDTO que tiene los objetos completos
+//aqui hice el mapeo de juego llamando a los demas servicios//
     private JuegoRespuestaDTO enriquecerJuego(Juego juego){
 
-        //Llama al genero sercicio con un Get localhost:8081/api/v1/...
         GeneroDTO genero = generowebClient.get()
         .uri("/api/v1/generos/{id}",juego.getGeneroId())
         .retrieve()
@@ -91,13 +84,13 @@ public class JuegoService {
 
 
     PlataformaDTO plataforma = plataformawebClient.get()
-                .uri("/api/v1/platforma/{id}", juego.getPlataformId())
+                .uri("/api/v1/platforma/{id}", juego.getPlataformaId())
                 .retrieve()
                 .onStatus(
                     status -> status.is4xxClientError(),
                     response -> response.bodyToMono(String.class)
                         .map(body -> new RuntimeException(
-                            "Plataforma con ID " + juego.getPlataformId() + " no encontrada en Platforma Service"
+                            "Plataforma con ID " + juego.getPlataformaId() + " no encontrada en Platforma Service"
                         ))
                 )
                 .bodyToMono(PlataformaDTO.class)

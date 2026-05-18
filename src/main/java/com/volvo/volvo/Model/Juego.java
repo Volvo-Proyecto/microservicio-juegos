@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name="juego")
+@Table(name="juegos")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Juego {
@@ -33,7 +33,7 @@ public class Juego {
     private Long generoId;
 
     @Column(nullable = false)
-    private Long plataformId;
+    private Long plataformaId;
 
     @Column(nullable = false)
     private Long estudioId;
