@@ -38,17 +38,17 @@ public class JuegoController {
     public ResponseEntity<JuegoRespuestaDTO> obtenerporId(@PathVariable Long id) {
         return ResponseEntity.ok(juegoService.obtenerJuegoporId(id));
     }
-    @PostMapping("/crear")
+    @PostMapping
     public ResponseEntity<JuegoRespuestaDTO> crearJuego(@Valid @RequestBody JuegoPedidoDTO nuevo) {
         JuegoRespuestaDTO creado = juegoService.crearJuego(nuevo);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(creado);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<JuegoService> actualizarJuego(@PathVariable Long id,
+    public ResponseEntity<JuegoRespuestaDTO> actualizarJuego(@PathVariable Long id,
          @Valid @RequestBody JuegoPedidoDTO nuevo) {
         
-        return ResponseEntity.ok(juegoService);
+        return ResponseEntity.ok(juegoService.actualizar(id, nuevo));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> borrarJuego(@PathVariable Long id){

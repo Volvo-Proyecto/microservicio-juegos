@@ -154,5 +154,19 @@ public class JuegoService {
             throw new RuntimeException("Error al validar IDs externos: " + e.getMessage(), e);
         }
     }
+    public JuegoRespuestaDTO actualizar(Long id, JuegoPedidoDTO pedido) {
+    Juego juego = repositorio.findById(id)
+            .orElseThrow(() -> new RuntimeException("Juego no encontrado con ID: " + id));
+
+    juego.setTitulo(pedido.getTitulo());
+    juego.setDescripcion(pedido.getDescripcion());
+    juego.setAnioLanzamiento(pedido.getAnioLanzamiento());
+    juego.setGeneroId(pedido.getGeneroId());
+    juego.setPlataformaId(pedido.getPlataformaId());
+    juego.setEstudioId(pedido.getEstudioId());
+
+    Juego actualizado = repositorio.save(juego);
+    return enriquecerJuego(actualizado);
+}
 
 }
