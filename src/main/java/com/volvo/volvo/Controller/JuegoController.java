@@ -7,6 +7,7 @@ import com.volvo.volvo.DTO.JuegoPedidoDTO;
 import com.volvo.volvo.DTO.JuegoRespuestaDTO;
 import com.volvo.volvo.JuegosService.JuegoService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -34,6 +35,9 @@ public class JuegoController {
     public ResponseEntity<List<JuegoRespuestaDTO>> listarTodos() {
         return ResponseEntity.ok(juegoService.obtenerJuegos());
     }
+
+    
+    @Operation(summary ="Buscar Juego" ,description="obtiene un juego buscandolo por su id")
     @GetMapping("/{id}")
     public ResponseEntity<JuegoRespuestaDTO> obtenerporId(@PathVariable Long id) {
         return ResponseEntity.ok(juegoService.obtenerJuegoporId(id));
