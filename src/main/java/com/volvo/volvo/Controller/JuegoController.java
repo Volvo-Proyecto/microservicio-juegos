@@ -3,6 +3,7 @@ package com.volvo.volvo.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.volvo.volvo.Assembler.JuegoClassAssembler;
 import com.volvo.volvo.DTO.JuegoPedidoDTO;
 import com.volvo.volvo.DTO.JuegoRespuestaDTO;
 import com.volvo.volvo.JuegosService.JuegoService;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,6 +33,9 @@ public class JuegoController {
     
     private final JuegoService juegoService;
 
+    
+    private final JuegoClassAssembler assembler;
+
     @GetMapping
     public ResponseEntity<List<JuegoRespuestaDTO>> listarTodos() {
         return ResponseEntity.ok(juegoService.obtenerJuegos());
@@ -39,8 +44,10 @@ public class JuegoController {
     
     @Operation(summary ="Buscar Juego" ,description="obtiene un juego buscandolo por su id")
     @GetMapping("/{id}")
-    public ResponseEntity<JuegoRespuestaDTO> obtenerporId(@PathVariable Long id) {
-        return ResponseEntity.ok(juegoService.obtenerJuegoporId(id));
+    /*modificado para usarse con assembler */
+    public ResponseEntity<EntityModel<JuegoRespuestaDTO>> obtenerporId(@PathVariable Long id) {
+        JuegoRespuestaDTO j = juegoService.obtenerJuegoporId(id);
+        return new ResponseEntity<>(assembler.toModel(j),HttpStatus.OK);
     }
     @PostMapping
     public ResponseEntity<JuegoRespuestaDTO> crearJuego(@Valid @RequestBody JuegoPedidoDTO nuevo) {
