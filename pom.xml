@@ -78,11 +78,9 @@
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-    <groupId>org.springdoc</groupId>
-    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-    <version>2.8.3</version>
-</dependency>
+		<!-- Removed springdoc starter due to Spring Boot / springdoc version incompatibility.
+		     If OpenAPI UI is required, update Spring Boot to a compatible version or use a matching
+		     springdoc version. -->
 	</dependencies>
 
 	<build>
