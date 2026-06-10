@@ -68,7 +68,7 @@ public class JuegoService {
         repositorio.deleteById(id);
     }
 //aqui hice el mapeo de juego llamando a los demas servicios//
-    private JuegoRespuestaDTO enriquecerJuego(Juego juego){
+    public JuegoRespuestaDTO enriquecerJuego(Juego juego){
 
         GeneroDTO genero = generowebClient.get()
         .uri("/api/v1/generos/{id}",juego.getGeneroId())
