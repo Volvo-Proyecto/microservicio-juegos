@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.boot.test.mock.mockito.MockBean; // <-- CAMBIÓ ESTA LÍNEA
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,11 +17,12 @@ import com.volvo.volvo.JuegosService.JuegoService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-/**************PRUEBAS UNITARIAS EN EL CONTROLLER+++++++++++++++++++++++ */
+
+/************** PRUEBAS UNITARIAS EN EL CONTROLLER ***********************/
 @WebMvcTest(JuegoController.class)
 public class JuegoControllerTest {
 
-    @MockitoBean
+    @MockBean // Se cambia la anotación de MockitoBean a MockBean para que Spring Boot pueda inyectar el mock en el contexto de la aplicación.
     private JuegoService servicio;
 
     @Autowired
@@ -31,8 +32,8 @@ public class JuegoControllerTest {
     private ObjectMapper objMapper;
 
     @Test
-    void listarTodos_deberiaRetornar200(){
-        JuegoRespuestaDTO  j = new JuegoRespuestaDTO();
+    void listarTodos_deberiaRetornar200() throws Exception { 
+        JuegoRespuestaDTO j = new JuegoRespuestaDTO();
         j.setDescipcion("juego para trolls");
         j.setId(7L);
         j.setAnioLanzamiento(2010);
@@ -40,7 +41,7 @@ public class JuegoControllerTest {
 
         when(servicio.obtenerJuegos()).thenReturn(List.of(j));
 
-        mockMvc.perform(get("/api/v1/juego"))
+        mockMvc.perform(get("/api/v1/juegos"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].id").value(7L))
             .andExpect(jsonPath("$[0].titulo").value("Furrylove"));
