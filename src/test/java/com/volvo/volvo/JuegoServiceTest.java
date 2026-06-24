@@ -53,7 +53,7 @@ public class JuegoServiceTest {
         when(repositorio.findAll()).thenReturn(List.of(juego));
 
         JuegoRespuestaDTO dto = new JuegoRespuestaDTO();
-        dto.setDescipcion("juego para trolls");
+        dto.setDescripcion("juego para trolls");
         dto.setId(7L);
         dto.setAnioLanzamiento(2010);
         dto.setTitulo("Furrylove");
@@ -63,7 +63,7 @@ public class JuegoServiceTest {
         List<JuegoRespuestaDTO> lista = servicio.obtenerJuegos();
 
         assertEquals(1, lista.size());
-        assertEquals("juego para trolls", lista.get(0).getDescipcion());
+        assertEquals("juego para trolls", lista.get(0).getDescripcion());
 
         verify(repositorio,times(1)).findAll();
     }

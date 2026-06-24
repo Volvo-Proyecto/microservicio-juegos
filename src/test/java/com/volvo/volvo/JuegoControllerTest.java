@@ -34,7 +34,7 @@ public class JuegoControllerTest {
     @Test
     void listarTodos_deberiaRetornar200() throws Exception { 
         JuegoRespuestaDTO j = new JuegoRespuestaDTO();
-        j.setDescipcion("juego para trolls");
+        j.setDescripcion("juego para trolls");
         j.setId(7L);
         j.setAnioLanzamiento(2010);
         j.setTitulo("Furrylove");
