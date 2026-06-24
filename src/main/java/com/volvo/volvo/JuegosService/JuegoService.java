@@ -48,7 +48,7 @@ public class JuegoService {
     public JuegoRespuestaDTO crearJuego(JuegoPedidoDTO pedido){
 
         //****IMPORTANTE ACTIVAR EL VALIDAR MAS TARDE; AHORA ESTA DESACTIVADO PARA HACER PRUEBAS SIN OTROS SERVICIOS CORRIENDO */
-        //validarIdExterno(pedido.getGeneroId(), pedido.getPlataformaId(), pedido.getEstudioId());
+        validarIdExterno(pedido.getGeneroId(), pedido.getPlataformaId(), pedido.getEstudioId());
 
         Juego juego = new Juego();
         juego.setTitulo(pedido.getTitulo());
@@ -114,7 +114,7 @@ public class JuegoService {
     JuegoRespuestaDTO respuesta = new JuegoRespuestaDTO();
         respuesta.setId(juego.getId());
         respuesta.setTitulo(juego.getTitulo());
-        respuesta.setDescipcion(juego.getDescripcion());
+        respuesta.setDescripcion(juego.getDescripcion());
         respuesta.setAnioLanzamiento(juego.getAnioLanzamiento());
         respuesta.setGenero(genero);
         respuesta.setPlataforma(plataforma);
@@ -143,7 +143,7 @@ public class JuegoService {
             .block();
             
             estudiowebClient.get()
-                .uri("/api/estudio/{id}", estudioId)
+                .uri("/api/v1/estudio/{id}", estudioId)
                 .retrieve()
                 .onStatus(status -> status.is4xxClientError(),
                     response -> response.bodyToMono(String.class)

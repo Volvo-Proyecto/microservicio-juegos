@@ -6,7 +6,7 @@ import lombok.Data;
 public class JuegoRespuestaDTO {
     private Long id;
     private String titulo;
-    private String descipcion;
+    private String descripcion;
     private Integer anioLanzamiento;
 
 
