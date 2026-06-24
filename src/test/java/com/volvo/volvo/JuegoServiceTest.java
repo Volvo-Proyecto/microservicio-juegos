@@ -12,9 +12,11 @@ import com.volvo.volvo.DTO.JuegoRespuestaDTO;
 import com.volvo.volvo.JuegosRepository.JuegoRepository;
 import com.volvo.volvo.JuegosService.JuegoService;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -66,6 +68,41 @@ public class JuegoServiceTest {
         assertEquals("juego para trolls", lista.get(0).getDescripcion());
 
         verify(repositorio,times(1)).findAll();
+    }
+    @Test
+    void deberiaLanzarExcepcionSiJuegoNoExisteAlObtener() {
+
+        when(repositorio.findById(99L)).thenReturn(Optional.empty());
+
+
+        RuntimeException ex = assertThrows(
+            RuntimeException.class,
+            () -> servicio.obtenerJuegoporId(99L)
+        );
+        assertTrue(ex.getMessage().contains("no encontrado"));
+    }
+
+    @Test
+    void deberiaBorrarJuegoExistente() {
+  
+        when(repositorio.existsById(1L)).thenReturn(true);
+
+        servicio.borrarjuego(1L);
+
+
+        verify(repositorio, times(1)).deleteById(1L);
+    }
+
+    @Test
+    void deberiaLanzarExcepcionAlBorrarJuegoInexistente() {
+        when(repositorio.existsById(99L)).thenReturn(false);
+
+        RuntimeException ex = assertThrows(
+            RuntimeException.class,
+            () -> servicio.borrarjuego(99L)
+        );
+        assertTrue(ex.getMessage().contains("no encontrado"));
+        verify(repositorio, never()).deleteById(any()); 
     }
 
     
