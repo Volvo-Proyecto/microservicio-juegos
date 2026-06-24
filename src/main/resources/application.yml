@@ -1,0 +1,27 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: juegos
+  datasource:
+    url: "jdbc:mysql://localhost:3306/juegos_db?allowPublicKeyRetrieval=true&useSSL=false"
+    username: root
+    password: 
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+
+services:
+  genero:
+    url: http://localhost:8081/api/v1/generos
+  plataforma:
+    url: http://localhost:8082/api/v1/plataformas
+  estudio:
+    url: http://localhost:8084/api/v1/estudios
